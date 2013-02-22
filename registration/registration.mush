@@ -1,0 +1,172 @@
+##############################################################################
+## Invitations
+##############################################################################
+## Manages invitations to new users.
+##
+## @author      Kevin Kragenbrink <kevin@writh.net>
+## @created     2013-02-21
+## @modified    2013-02-21
+## @license
+##   Copyright (C) 2013 Kevin Kragenbrink <kevin@writh.net>
+##
+##   Permission is hereby granted, free of charge, to any person obtaining a
+##   copy of this software and associated documentation files (the
+##   "Software"), to deal in the Software without restriction, including
+##   without limitation the rights to use, copy, modify, merge, publish,
+##   distribute, sublicense, and/or sell copies of the Software, and to permit
+##   persons to whom the Software is furnished to do so, subject to the
+##   following conditions:
+##
+##   The above copyright notice and this permission notice shall be included
+##   in all copies or substantial portions of the Software.
+##
+##   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+##   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+##   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+##   NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+##   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+##   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+##   USE OR OTHER DEALINGS IN THE SOFTWARE.
+##############################################################################
+
+@set me                                 = QUIET
+-
+
+########################################
+## OBJECTS
+########################################
+think [ansi(hc, *)] Creating Objects.
+-
+
+think set(%!, VR:[ifelse(
+    isdbref(setr(0, search(NAME=\[System\] Registration))),
+    %q0,
+    create(\[[ansi(hy, System)]\] Registration, 10)
+)])
+-
+
+@set %vR                                = INHERIT;
+-
+
+########################################
+## COMMANDS
+########################################
+think [ansi(hc, *)] Installing Commands.
+-
+
+&CMD`+INVITE %vR                        = $+invite *:
+@assert u(%!/FUN`CAN_INVITE, %#) = {
+    @pemit %# = u(%!/FUN`MESSAGE, v(MSG`PERMISSION_DENIED));
+};
+think setq(E, trim(%0));
+@assert u(%!/FUN`IS_VALID_EMAIL, %qE) = {
+    @pemit %# = u(%!/FUN`MESSAGE, v(MSG`EMAIL_INVALID, %qE));
+};
+@assert u(%!/FUN`IS_UNIQUE_EMAIL, %qE) = {
+    @pemit %# = u(%!/FUN`MESSAGE, u(MSG`EMAIL_UNIQUE, %qE));
+};
+think setq(P, u(FUN`GENERATE_PASSWORD));
+think setq(N, u(FUN`GENERATE_NAME));
+@pcreate %qN = %qP;
+think setq(D, pmatch(%qN));
+@assert isdbref(%qD) = {
+    @pemit %# = u(%!/FUN`MESSAGE, u(MSG`ERROR));
+    @cemit [v(DAT`CHANNEL_BUGS)] = u(%!/FUN`MESSAGE, u(MSG`BUG, %qN));
+};
+@email %qE/[u(MSG`EMAIL_SUBJECT)]=[u(MSG`EMAIL_BODY, name(%#), %qN, %qP, convtime(add(secs(), v(DAT`EXPIRATION_TIME))))];
+&_DAT`EMAIL %qD = %qE;
+@pemit %# = u(%!/FUN`MESSAGE, u(MSG`SUCCESS, %qE));
+@cemit [v(DAT`CHANNEL_STAFF)] = u(%!/FUN`MESSAGE, u(MSG`INVITATION_NOTICE, %qE, %qN))
+-
+
+########################################
+## FUNCTIONS
+########################################
+think [ansi(hc, *)] Installing Functions.
+-
+
+&FUN`CAN_INVITE %vR                     =
+cor(
+    hasflag(%0, STAFF),
+    cand(
+        not(hasflag(%0, NOINVITE)),
+        gte(
+            sub(secs(), xget(%0, _DAT`LAST_INVITE)),
+            v(DAT`INVITE_FREQUENCY)
+        )
+    )
+)
+-
+
+&FUN`GENERATE_NAME %vR                  =
+[v(DAT`NAME_PREFIX)]-[u(FUN`GET_NEXT_INVITE_ID)]
+-
+
+&FUN`GENERATE_PASSWORD %vR              =
+strip(iter(
+    lnum(8),
+    pickrand(v(DAT`VALID_PASSWORD_CHARACTERS))
+), %b)
+-
+
+&FUN`GET_NEXT_INVITE_ID %vR             = set(%!, DAT`INVITES:[inc(v(DAT`INVITES))])[v(DAT`INVITES)]
+-
+
+&FUN`IS_UNIQUE_EMAIL %vR                =
+eq(
+    words(search(eplayer=strmatch(xget(##, _DAT`EMAIL), %0))),
+    0
+)
+-
+
+&FUN`IS_VALID_EMAIL %vR                 = regmatchi(%0, v(DAT`REGEXP_EMAIL))
+-
+
+&FUN`MESSAGE %vR                        = %0
+-
+
+########################################
+## DATA
+########################################
+think [ansi(hc, *)] Installing Data.
+-
+
+&DAT`CHANNEL_BUGS %vR                   = Bugs
+-
+&DAT`CHANNEL_STAFF %vR                  = Staff
+-
+&DAT`INVITE_FREQUENCY %vR               = 2592000
+-
+&DAT`INVITES %vR                        = 0
+-
+&DAT`NAME_PREFIX %vR                    = Artist
+-
+&DAT`REGEXP_EMAIL %vR                   = \b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b
+-
+&DAT`VALID_PASSWORD_CHARACTERS %vR      = A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 ~ ! $ # ^ - _ + = | : < > . ?
+-
+
+########################################
+## MESSAGES
+########################################
+think [ansi(hc, *)] Installing Messages.
+-
+
+&MSG`BUG %vR                            = Could not create player name '%0'.
+-
+&MSG`EMAIL_BODY %vR                     = You have been issued an invitation to join Sandbox MUSH.  To join in the fun, use a telnet client like MUSHClient* or TinyFugue** to connect with the following information:%r%r[space(4)]host: castle.writh.net%r[space(4)]port: 2860%r[space(4)]username: %1%r[space(4)]password: %2%r%rIf you do not log in by %3, this invitation will expire and your login will be destroyed.
+-
+&MSG`EMAIL_INVALID %vR                  = '%0' is not a valid email address.
+-
+&MSG`EMAIL_SUBJECT %vR                  = Sand Castle MUX Invitation
+-
+&MSG`EMAIL_UNIQUE %vR                   = '%0' already has an account.
+-
+&MSG`ERROR %vR                          = An error has occurred.
+-
+&MSG`INVITATION_NOTICE %vR              = An invitation has been sent to '%0' for '%1'.
+-
+&MSG`PERMISSION_DENIED %vR              = Permission denied.
+-
+&MSG`SUCCESS %vR                        = An invitation has been sent to %0.
+-
