@@ -66,13 +66,13 @@ think [ansi(hc, *)] Installing formatters.
 [ifelse(
     words(%qO),
     %r%chContents:%cn%r
-    [table(iter(%qO, %b%b[moniker(%i0)][u(F.INFO)],, |), 30, width(%#), |,)]
+    [table(iter(%qO, %b%b[moniker(%i0)][u(F.INFO, %i0)],, |), 30, width(%#), |,)]
     [ifelse(words(%qP), %r,)],
 )]
 [ifelse(
     words(%qP),
     %r%chPlayers:%cn%r
-    [table(iter(%qP, %b%b[moniker(%i0)][u(F.INFO)],, |), 30, width(%#), |,)],
+    [table(iter(%qP, %b%b[moniker(%i0)][u(F.INFO, %i0)],, |), 30, width(%#), |,)],
 )]
 -
 
@@ -84,12 +84,12 @@ think [ansi(hc, *)] Installing formatters.
 [ifelse(
     words(%0),
     %r%chExits:%cn%r
-    [table(iter(%0, %b%b[name(%i0)] <[elements(fullname(%i0), 2, ;)]>[u(F.INFO)],, |), 30, width(%#), |,)],
+    [table(iter(%0, %b%b[name(%i0)] <[elements(fullname(%i0), 2, ;)]>[u(F.INFO, %i0)],, |), 30, width(%#), |,)],
 )]
 -
 
 @NameFormat %vR                         =
-%r%ch[name(%!)]%cn[u(F.INFO)]
+%r%ch[name(%!)]%cn[u(F.INFO, %!)]
 -
 
 
@@ -99,7 +99,7 @@ think [ansi(hc, *)] Installing formatters.
 think [ansi(hc, *)] Installing filters and functions.
 -
 
-&F.INFO %vR                             = [ifelse(controls(%#, %!), %b%(%![flags(%!)]%),)]
+&F.INFO %vR                             = [ifelse(controls(%#, %0), %b%(%0[flags(%0)]%),)]
 -
 
 &FIL.ISOBJECT %vR                       = hastype(%0, THING)
