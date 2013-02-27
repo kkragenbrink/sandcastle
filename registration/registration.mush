@@ -189,5 +189,5 @@ think [ansi(hc, *)] Finishing Up.
 @vR %!
 -
 
-@set %!                                 = !QUIET;
+@set %!                                 = !QUIET
 -
