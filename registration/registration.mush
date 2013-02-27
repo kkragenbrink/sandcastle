@@ -48,6 +48,12 @@ think set(%!, VR:[ifelse(
 @set %vR                                = INHERIT
 -
 
+@link %vR                               = #2
+-
+
+@tel %vR                                = #2
+-
+
 ########################################
 ## COMMANDS
 ########################################
@@ -172,4 +178,16 @@ think [ansi(hc, *)] Installing Messages.
 &MSG`PERMISSION_DENIED %vR              = You are not allowed to send invitations at this time.
 -
 &MSG`SUCCESS %vR                        = An invitation has been sent to %0.
+-
+
+########################################
+## FINISHING UP
+########################################
+think [ansi(hc, *)] Finishing Up.
+-
+
+@vR %!
+-
+
+@set %!                                 = !QUIET;
 -
