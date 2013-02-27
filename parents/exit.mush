@@ -60,10 +60,10 @@ think set(%!, VR:[ifelse(
 think [ansi(hc, *)] Installing messages.
 -
 
-@osucc                                  = heads to the [name(%!)].
+@osucc %vR                                  = heads to the [name(%!)].
 -
 
-@odrop                                  = arrives from [name(%L)].
+@odrop %vR                               = arrives from [name(%L)].
 -
 
 ########################################
