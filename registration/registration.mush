@@ -5,7 +5,7 @@
 ##
 ## @author      Kevin Kragenbrink <kevin@writh.net>
 ## @created     2013-02-21
-## @modified    2013-02-21
+## @modified    2013-02-26
 ## @license
 ##   Copyright (C) 2013 Kevin Kragenbrink <kevin@writh.net>
 ##
@@ -39,9 +39,9 @@ think [ansi(hc, *)] Creating Objects.
 -
 
 think set(%!, VR:[ifelse(
-    isdbref(setr(0, search(NAME=\[System\] Registration))),
+    isdbref(setr(0, search(NAME=%[System%] Registration))),
     %q0,
-    create(\[[ansi(hy, System)]\] Registration, 10)
+    create(%[[ansi(hy, System)]%] Registration, 10)
 )])
 -
 
