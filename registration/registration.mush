@@ -73,7 +73,7 @@ think setq(D, pmatch(%qN));
     @pemit %# = u(%!/FUN`MESSAGE, u(MSG`ERROR));
     @cemit [v(DAT`CHANNEL_BUGS)] = u(%!/FUN`MESSAGE, u(MSG`BUG, %qN));
 };
-@email %qE/[u(MSG`EMAIL_SUBJECT)]=[u(MSG`EMAIL_BODY, name(%#), %qN, %qP, convtime(add(secs(), v(DAT`EXPIRATION_TIME))))];
+@email %qE/[u(MSG`EMAIL_SUBJECT)]=[u(MSG`EMAIL_BODY, name(%#), %qN, %qP, elements(convsecs(add(secs(), v(DAT`EXPIRATION_TIME))), 3 2 5))];
 &_DAT`EMAIL %qD = %qE;
 &_DAT`LAST_INVITE %# = [secs()];
 @pemit %# = u(%!/FUN`MESSAGE, u(MSG`SUCCESS, %qE));
