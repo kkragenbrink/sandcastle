@@ -1,0 +1,79 @@
+##############################################################################
+## Exit Parent
+##############################################################################
+## Manages the exit messages.
+##
+## @author      Kevin Kragenbrink <kevin@writh.net>
+## @created     2013-02-27
+## @modified    2013-02-27
+## @license
+##   Copyright (C) 2013 Kevin Kragenbrink <kevin@writh.net>
+##
+##   Permission is hereby granted, free of charge, to any person obtaining a
+##   copy of this software and associated documentation files (the
+##   "Software"), to deal in the Software without restriction, including
+##   without limitation the rights to use, copy, modify, merge, publish,
+##   distribute, sublicense, and/or sell copies of the Software, and to permit
+##   persons to whom the Software is furnished to do so, subject to the
+##   following conditions:
+##
+##   The above copyright notice and this permission notice shall be included
+##   in all copies or substantial portions of the Software.
+##
+##   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+##   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+##   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+##   NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+##   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+##   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+##   USE OR OTHER DEALINGS IN THE SOFTWARE.
+##############################################################################
+
+@set me                                 = QUIET
+-
+
+########################################
+## OBJECTS
+########################################
+think [ansi(hc, *)] Creating Objects.
+-
+
+think set(%!, VR:[ifelse(
+    isdbref(setr(0, search(NAME=%[Parent%] Exit))),
+    %q0,
+    create(%[[ansi(m, Parent)]%] Exit, 10)
+)])
+-
+
+@set %vR                                = PARENT_OK
+-
+
+@link %vR                               = #9
+-
+
+@tel %vR                                = #9
+-
+
+########################################
+## MESSAGES
+########################################
+think [ansi(hc, *)] Installing messages.
+-
+
+@osucc                                  = heads to the [name(%!)].
+-
+
+@odrop                                  = arrives from [name(%L)].
+-
+
+########################################
+## FINISHING UP
+########################################
+think [ansi(hc, *)] Finishing Up.
+-
+
+@vR %!
+-
+
+@set %!                                 = !QUIET
+-
