@@ -138,7 +138,7 @@ think [ansi(hc, *)] Installing Data.
 -
 &DAT`EXPIRATION_TIME %vR                = 2592000
 -
-&DAT`INVITE_FREQUENCY %vR               = 2592000
+&DAT`INVITE_FREQUENCY %vR               = 86400
 -
 &DAT`INVITES %vR                        = 0
 -
@@ -169,7 +169,7 @@ think [ansi(hc, *)] Installing Messages.
 -
 &MSG`INVITATION_NOTICE %vR              = An invitation has been sent to '%0' for '%1'.
 -
-&MSG`PERMISSION_DENIED %vR              = Permission denied.
+&MSG`PERMISSION_DENIED %vR              = You are not allowed to send invitations at this time.
 -
 &MSG`SUCCESS %vR                        = An invitation has been sent to %0.
 -
