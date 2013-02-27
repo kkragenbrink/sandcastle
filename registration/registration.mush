@@ -62,11 +62,11 @@ think [ansi(hc, *)] Installing Commands.
 
 &CMD`+INVITE %vR                        = $+invite *:
 @assert u(%!/FUN`CAN_INVITE, %#) = {
-    @pemit %# = u(%!/FUN`MESSAGE, v(MSG`PERMISSION_DENIED));
+    @pemit %# = u(%!/FUN`MESSAGE, u(MSG`PERMISSION_DENIED));
 };
 think setq(E, trim(%0));
 @assert u(%!/FUN`IS_VALID_EMAIL, %qE) = {
-    @pemit %# = u(%!/FUN`MESSAGE, v(MSG`EMAIL_INVALID, %qE));
+    @pemit %# = u(%!/FUN`MESSAGE, u(MSG`EMAIL_INVALID, %qE));
 };
 @assert u(%!/FUN`IS_UNIQUE_EMAIL, %qE) = {
     @pemit %# = u(%!/FUN`MESSAGE, u(MSG`EMAIL_UNIQUE, %qE));
