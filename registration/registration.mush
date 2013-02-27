@@ -79,6 +79,7 @@ think setq(D, pmatch(%qN));
     @pemit %# = u(%!/FUN`MESSAGE, u(MSG`ERROR));
     @cemit [v(DAT`CHANNEL_BUGS)] = u(%!/FUN`MESSAGE, u(MSG`BUG, %qN));
 };
+@teleport %qD = [v(DAT`STARTING_ROOM)]; 
 @email %qE/[u(MSG`EMAIL_SUBJECT)]=[u(MSG`EMAIL_BODY, name(%#), %qN, %qP, elements(convsecs(add(secs(), v(DAT`EXPIRATION_TIME))), 3 2 5))];
 &_DAT`EMAIL %qD = %qE;
 &_DAT`LAST_INVITE %# = [secs()];
@@ -146,11 +147,11 @@ think [ansi(hc, *)] Installing Data.
 -
 &DAT`INVITE_FREQUENCY %vR               = 86400
 -
-&DAT`INVITES %vR                        = 0
--
 &DAT`NAME_PREFIX %vR                    = Artist
 -
 &DAT`REGEXP_EMAIL %vR                   = \b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b
+-
+&DAT`STARTING_ROOM %vR                  = #31
 -
 &DAT`VALID_PASSWORD_CHARACTERS %vR      = A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 ~ ! $ # ^ - _ + = | : < > . ?
 -
