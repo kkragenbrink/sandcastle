@@ -1,0 +1,121 @@
+##############################################################################
+## Interrogatives
+##############################################################################
+## Who, Where, etc.
+##
+## @author      Kevin Kragenbrink <kevin@writh.net>
+## @created     2013-02-27
+## @modified    2013-02-27
+## @license
+##   Copyright (C) 2013 Kevin Kragenbrink <kevin@writh.net>
+##
+##   Permission is hereby granted, free of charge, to any person obtaining a
+##   copy of this software and associated documentation files (the
+##   "Software"), to deal in the Software without restriction, including
+##   without limitation the rights to use, copy, modify, merge, publish,
+##   distribute, sublicense, and/or sell copies of the Software, and to permit
+##   persons to whom the Software is furnished to do so, subject to the
+##   following conditions:
+##
+##   The above copyright notice and this permission notice shall be included
+##   in all copies or substantial portions of the Software.
+##
+##   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+##   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+##   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+##   NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+##   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+##   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+##   USE OR OTHER DEALINGS IN THE SOFTWARE.
+##############################################################################
+
+@set me                                 = QUIET
+-
+
+########################################
+## OBJECTS
+########################################
+think [ansi(hc, *)] Creating Objects.
+-
+
+think set(%!, VR:[ifelse(
+    isdbref(setr(0, search(NAME=%[System%] Interrogatives))),
+    %q0,
+    create(%[[ansi(hy, System)]%] Interrogatives, 10)
+)])
+-
+
+@set %vR                                = INHERIT
+-
+
+@link %vR                               = #2
+-
+
+@tel %vR                                = #2
+-
+
+########################################
+## COMMANDS
+########################################
+think [ansi(hc, *)] Installing Commands.
+-
+
+&CMD`+WHERE %vR                         = $+where:
+think setq(R, u(FUN`GET_ACTIVE_ROOM_LIST));
+@pemit %# = u(FUN`HEADER, +where);
+@dolist %qR #-1 = {
+    @break match(##, #-1) = {
+        @pemit %# = u(FUN`FOOTER, +where);
+    };
+    think setq(L, u(FUN`GET_PLAYERS_IN_ROOM, ##));
+    think setq(D, filter(FIL`UNFINDABLE_PLAYERS, %qL));
+    @pemit %# = [ansi(h, name(##))] - [words(%qL)] players;
+    @pemit %# = [space(4)][itemize(iter(%qD, moniker(##), , |), |, and)]
+}
+-
+
+########################################
+## FUNCTIONS
+########################################
+think [ansi(hc, *)] Installing Functions.
+-
+
+&FUN`FOOTER %vR                         = repeat(=, 78)
+-
+
+&FUN`GET_ACTIVE_ROOM_LIST %vR           = search(eroom=words(u(FUN`GET_PLAYERS_IN_ROOM, ##)))
+-
+
+&FUN`GET_PLAYERS_IN_ROOM %vR            = objeval(%#, lcon(%0/CONNECT))
+-
+
+&FUN`HEADER %vR                         = repeat(=, 78)
+-
+
+&FIL`UNFINDABLE_PLAYERS %vR             = cor(not(hasflag(%0, UNFINDABLE)), hasflag(%#, STAFF))
+-
+
+
+########################################
+## DATA
+########################################
+think [ansi(hc, *)] Installing Data.
+-
+
+########################################
+## MESSAGES
+########################################
+think [ansi(hc, *)] Installing Messages.
+-
+
+########################################
+## FINISHING UP
+########################################
+think [ansi(hc, *)] Finishing Up.
+-
+
+@vR %!
+-
+
+@set %!                                 = !QUIET
+-
