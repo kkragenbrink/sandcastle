@@ -1,0 +1,121 @@
+##############################################################################
+## Room Parent
+##############################################################################
+## Manages the room decorations.
+##
+## @author      Kevin Kragenbrink <kevin@writh.net>
+## @created     2013-02-26
+## @modified    2013-02-26
+## @license
+##   Copyright (C) 2013 Kevin Kragenbrink <kevin@writh.net>
+##
+##   Permission is hereby granted, free of charge, to any person obtaining a
+##   copy of this software and associated documentation files (the
+##   "Software"), to deal in the Software without restriction, including
+##   without limitation the rights to use, copy, modify, merge, publish,
+##   distribute, sublicense, and/or sell copies of the Software, and to permit
+##   persons to whom the Software is furnished to do so, subject to the
+##   following conditions:
+##
+##   The above copyright notice and this permission notice shall be included
+##   in all copies or substantial portions of the Software.
+##
+##   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+##   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+##   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+##   NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+##   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+##   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+##   USE OR OTHER DEALINGS IN THE SOFTWARE.
+##############################################################################
+
+@set me                                 = QUIET
+-
+
+########################################
+## OBJECTS
+########################################
+think [ansi(hc, *)] Creating Objects.
+-
+
+think set(%!, VR:[ifelse(
+    isdbref(setr(0, search(NAME=%[Parent%] Room))),
+    %q0,
+    create(%[[ansi(m, Parent)]%] Room, 10)
+)])
+-
+
+@set %vR                                = PARENT_OK
+-
+
+@link %vR                               = #9
+-
+
+@tel %vR                                = #9
+-
+
+########################################
+## FORMATTERS
+########################################
+think [ansi(hc, *)] Installing formatters.
+-
+
+@ConFormat %vR                          =
+[setq(P, filter(%!/FIL.ISPLAYER, %0))]
+[setq(O, filter(%!/FIL.ISOBJECT, %0))]
+[ifelse(
+    words(%qO),
+    %r%chContents:%cn%r
+    [table(iter(%qO, %b%b[moniker(%i0)][u(F.INFO)],, |), 30, width(%#), |,)]
+    [ifelse(words(%qP), %r,)],
+)]
+[ifelse(
+    words(%qP),
+    %r%chPlayers:%cn%r
+    [table(iter(%qP, %b%b[moniker(%i0)][u(F.INFO)],, |), 30, width(%#), |,)],
+)]
+-
+
+@DescFormat %vR                         =
+[edit(%r%0, %r, %r%t)]
+-
+
+@ExitFormat %vR                         =
+[ifelse(
+    words(%0),
+    %r%chExits:%cn%r
+    [table(iter(%0, %b%b[name(%i0)] <[elements(fullname(%i0), 2, ;)]>[u(F.INFO)],, |), 30, width(%#), |,)],
+)]
+-
+
+@NameFormat %vR                         =
+%r%ch[name(%!)]%cn[u(F.INFO)]
+-
+
+
+########################################
+## FILTERS AND FUNCTIONS
+########################################
+think [ansi(hc, *)] Installing filters and functions.
+-
+
+&F.INFO %vR                             = [ifelse(controls(%#, %!), %b%(%![flags(%!)]%),)]
+-
+
+&FIL.ISOBJECT %vR                       = hastype(%0, THING)
+-
+
+&FIL.ISPLAYER %vR                       = hastype(%0, PLAYER)
+-
+
+########################################
+## FINISHING UP
+########################################
+think [ansi(hc, *)] Finishing Up.
+-
+
+@vR %!
+-
+
+@set %!                                 = !QUIET
+-
