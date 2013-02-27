@@ -75,6 +75,7 @@ think setq(D, pmatch(%qN));
 };
 @email %qE/[u(MSG`EMAIL_SUBJECT)]=[u(MSG`EMAIL_BODY, name(%#), %qN, %qP, convtime(add(secs(), v(DAT`EXPIRATION_TIME))))];
 &_DAT`EMAIL %qD = %qE;
+&_DAT`LAST_INVITE %# = [secs()];
 @pemit %# = u(%!/FUN`MESSAGE, u(MSG`SUCCESS, %qE));
 @cemit [v(DAT`CHANNEL_STAFF)] = u(%!/FUN`MESSAGE, u(MSG`INVITATION_NOTICE, %qE, %qN))
 -
@@ -134,6 +135,8 @@ think [ansi(hc, *)] Installing Data.
 &DAT`CHANNEL_BUGS %vR                   = Bugs
 -
 &DAT`CHANNEL_STAFF %vR                  = Staff
+-
+&DAT`EXPIRATION_TIME %vR                = 2592000
 -
 &DAT`INVITE_FREQUENCY %vR               = 2592000
 -
