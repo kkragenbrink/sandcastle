@@ -163,7 +163,7 @@ think [ansi(hc, *)] Installing Messages.
 
 &MSG`BUG %vR                            = Could not create player name '%0'.
 -
-&MSG`EMAIL_BODY %vR                     = %0 has invited you to join Sandbox MUSH.  To join in the fun, use a telnet client like MUSHClient* or TinyFugue** to connect with the following information:%r%r[space(4)]host: castle.writh.net%r[space(4)]port: 2860%r[space(4)]temp username: %1%r[space(4)]temp password: %2%r%rPlease remember to change your username (help @name) and password (help @password) once you have connected.%r%rIf you do not log in by %3, this invitation will expire and your login will be destroyed.
+&MSG`EMAIL_BODY %vR                     = %0 has invited you to join Sandbox MUSH.  To join in the fun, use a telnet client like MUSHClient* or TinyFugue** to connect with the following information:%r%r[space(4)]host: castle.writh.net%r[space(4)]port: 2860%r[space(4)]temp username: %1%r[space(4)]temp password: %2%r%rPlease remember to change your username (help @name) and password (help @password) once you have connected.%r%rIf you do not log in by %3, this invitation will expire and your login will be destroyed.%r%r* http://www.gammon.com.au/mushclient/mushclient.htm%r** https://github.com/Sketch/tinyfugue
 -
 &MSG`EMAIL_INVALID %vR                  = '%0' is not a valid email address.
 -
