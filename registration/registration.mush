@@ -45,7 +45,7 @@ think set(%!, VR:[ifelse(
 )])
 -
 
-@set %vR                                = INHERIT;
+@set %vR                                = INHERIT
 -
 
 ########################################
